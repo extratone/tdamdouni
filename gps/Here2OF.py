@@ -23,7 +23,7 @@ Easy to launch from the WorkFlow or Launch apps
 
 import location
 import webbrowser
-import urllib
+import urllib.request, urllib.parse, urllib.error
 from string import Template
 
 def locationToNote( address, lat, long):
@@ -50,7 +50,7 @@ def locationToNote( address, lat, long):
 		"zip" : address.get("ZIP"), \
 		"country" : address.get("Country"),
 		"lat" : lat, 
-		"long" : long};
+		"long" : int};
 	
 	return tpl.substitute(params);
 
@@ -61,7 +61,7 @@ location.stop_updates();
 lat = here.get("latitude");
 long = here.get("longitude");
 address = location.reverse_geocode(here)[0];
-note = locationToNote(address, lat, long);
+note = locationToNote(address, lat, int);
 
 ofnote = {"name" : address.get("Street"), "note" : note};
-webbrowser.open("omnifocus:///add?" + urllib.urlencode(ofnote).replace('+','%20'));
+webbrowser.open("omnifocus:///add?" + urllib.parse.urlencode(ofnote).replace('+','%20'));
